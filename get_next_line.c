@@ -1,6 +1,19 @@
 #include "get_next_line.h"
 #include <stdio.h>
 #include <string.h>
+char *ft_strcpy(char *str, char *after_newline)
+{
+    int i;
+
+    i = 0;
+    while (after_newline[i])
+    {
+        str[i] = after_newline[i];
+        i++;
+    }
+    str[i] = '\0';
+    return (str);
+}
 
 char *get_next_line(int fd)
 {
@@ -14,8 +27,10 @@ char *get_next_line(int fd)
         return (NULL);
     buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
     if (!buf)
-        return (NULL);
-    str = NULL;
+    {
+        free(str);
+        return (str = NULL);
+    }
     buf[0] = '\0';
     while (!ft_strchr(buf, '\n'))
     {
@@ -24,12 +39,26 @@ char *get_next_line(int fd)
             break;
         buf[count] = '\0';
         str = ft_strjoin(str, buf);
+        if (!str)
+        {
+            free(str);
+            return (str = NULL);
+        }
     }
+    free(buf);
     after_newline = ft_strchr(str, '\n');
     line = malloc(sizeof(char) * (ft_strlen(str) - ft_strlen(after_newline)));
     if (!line)
-        return (NULL);
-    line = ft_strcpy(line, str);
-    str = strcpy(str, after_newline);
+    {
+        free(str);
+        return (str = NULL);
+    }
+    line = ft_strcpy_nl(line, str);
+    if (!after_newline)
+    {
+        free(str);
+        return (str = NULL);
+    }
+    str = ft_strcpy(str, after_newline);
     return (line);
 }
