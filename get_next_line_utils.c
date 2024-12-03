@@ -47,7 +47,7 @@ size_t	ft_strlen(char *s)
 	return (i);
 }
 
-char    *ft_strcpy(char *line, char *str)
+char    *ft_strcpy_nl(char *line, char *str)
 {
     int i;
 
