@@ -25,16 +25,11 @@ char *get_next_line(int fd)
         buf[count] = '\0';
         str = ft_strjoin(str, buf);
     }
-
-    printf("str = %s\n", str);
     after_newline = ft_strchr(str, '\n');
     line = malloc(sizeof(char) * (ft_strlen(str) - ft_strlen(after_newline)));
     if (!line)
         return (NULL);
     line = ft_strcpy(line, str);
     str = strcpy(str, after_newline);
-    printf("str = %s\n", str);
-    printf("after_newline = %s\n", after_newline);
     return (line);
 }
-
