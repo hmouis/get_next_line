@@ -1,6 +1,5 @@
 #include "get_next_line.h"
-#include <stdio.h>
-#include <string.h>
+
 char *ft_strcpy(char *str, char *after_newline)
 {
     int i;
@@ -23,7 +22,7 @@ char *get_next_line(int fd)
     char *buf;
     ssize_t count;
 
-    if (BUFFER_SIZE <= 0)
+    if (fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
     buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
     if (!buf)
@@ -31,7 +30,6 @@ char *get_next_line(int fd)
         free(str);
         return (str = NULL);
     }
-    buf[0] = '\0';
     while (!ft_strchr(buf, '\n'))
     {
         count = read(fd, buf, BUFFER_SIZE);
