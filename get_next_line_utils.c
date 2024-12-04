@@ -6,7 +6,7 @@ char	*ft_strchr(char *s, int c)
 	size_t	i;
 
 	i = 0;
-	while (s[i] != '\0')
+	while (s && s[i] != '\0')
 	{
 		if (s[i] == (char)c)
 			return ((char *)s + (i + 1));
@@ -52,7 +52,7 @@ char    *ft_strcpy_nl(char *line, char *str)
     int i;
 
     i = 0;
-    while (str[i] != '\n')
+    while (str && str[i] != '\n')
     {
         line[i] = str[i];
         i++;
