@@ -52,6 +52,8 @@ char    *ft_strcpy_nl(char *line, char *str)
     int i;
 
     i = 0;
+    if (!str)
+        return (NULL);
     while (str && str[i] != '\n')
     {
         line[i] = str[i];

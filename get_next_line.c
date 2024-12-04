@@ -14,6 +14,25 @@ char *ft_strcpy(char *str, char *after_newline)
     return (str);
 }
 
+char *get_line(char *str, char *after_newline)
+{
+    char *line;
+
+    if (!after_newline)
+    {
+        free(str);
+        return (NULL);
+    }
+    line = malloc(sizeof(char) * (ft_strlen(str) - ft_strlen(after_newline)));
+    if (!line)
+    {
+        free(str);
+        return (NULL);
+    }
+    line = ft_strcpy_nl(line, str);
+    return (line);
+}
+
 char *get_next_line(int fd)
 {
     char *after_newline;
@@ -26,10 +45,7 @@ char *get_next_line(int fd)
         return (NULL);
     buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
     if (!buf)
-    {
-        free(str);
-        return (str = NULL);
-    }
+        return (free(str), NULL);
     while (!ft_strchr(buf, '\n'))
     {
         count = read(fd, buf, BUFFER_SIZE);
@@ -38,25 +54,13 @@ char *get_next_line(int fd)
         buf[count] = '\0';
         str = ft_strjoin(str, buf);
         if (!str)
-        {
-            free(str);
-            return (str = NULL);
-        }
+            return (free(str), NULL);
     }
     free(buf);
     after_newline = ft_strchr(str, '\n');
-    line = malloc(sizeof(char) * (ft_strlen(str) - ft_strlen(after_newline)));
+    line = get_line(str, after_newline);
     if (!line)
-    {
-        free(str);
-        return (str = NULL);
-    }
-    line = ft_strcpy_nl(line, str);
-    if (!after_newline)
-    {
-        free(str);
-        return (str = NULL);
-    }
+        return (NULL);
     str = ft_strcpy(str, after_newline);
     return (line);
 }
