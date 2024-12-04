@@ -73,7 +73,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	buf = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (!buf)
 		return (free(str), NULL);
 	count = 0;
