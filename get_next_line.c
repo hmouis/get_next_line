@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
@@ -69,14 +69,12 @@ char	*get_next_line(int fd)
 	char		*line;
 	static char	*str;
 	char		*buf;
-	ssize_t		count;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buf = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (!buf)
 		return (free(str), NULL);
-	count = 0;
 	str = fill_str(str, buf, fd);
 	if (!str)
 	{
