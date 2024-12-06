@@ -26,7 +26,7 @@ char	*ft_strcpy(char *str, char *after_newline)
 	return (str);
 }
 
-char	*get_line(char *str, char *after_newline)
+static char	*get_line(char *str, char *after_newline)
 {
 	char	*line;
 
@@ -89,6 +89,8 @@ char	*get_next_line(int fd)
         if(str)
         {
             line = malloc(sizeof(char) * (ft_strlen(str) + 1));
+			if (!line)
+				return (free(str), str = NULL);
             line = ft_strcpy(line, str);
             free(str);
             return (str = NULL, line);
