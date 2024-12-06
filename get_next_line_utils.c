@@ -16,34 +16,16 @@ char	*ft_strchr(char *s, char c)
 {
 	size_t	i;
 
+    if(!s)
+        return (NULL);
     i = 0;
-	while (s && s[i] != '\0')
+	while (s[i])
 	{
 		if (s[i] == c)
 			return (s + i + 1);
 		i++;
 	}
 	return (NULL);
-}
-
-char	*ft_strdup(char *s1)
-{
-	size_t	i;
-	char	*arr;
-	size_t	s1_len;
-
-	s1_len = ft_strlen(s1);
-	i = 0;
-	arr = (char *)malloc(sizeof(char) * s1_len + 1);
-	if (arr == NULL)
-		return (NULL);
-	while (s1[i] != '\0')
-	{
-		arr[i] = s1[i];
-		i++;
-	}
-	arr[i] = '\0';
-	return (arr);
 }
 
 size_t	ft_strlen(char *s)
@@ -82,7 +64,7 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	new = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!new)
-		return (NULL);
+		return (free(s1), NULL);
 	i = ft_strlen(s1);
 	j = 0;
 	while (s1 && s1[j] != '\0')
