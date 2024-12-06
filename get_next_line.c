@@ -30,7 +30,7 @@ char	*get_line(char *str, char *after_newline)
 {
 	char	*line;
 
-	line = malloc(sizeof(char) * (ft_strlen(str) - ft_strlen(after_newline)));
+	line = malloc(sizeof(char) * (ft_strlen(str) - ft_strlen(after_newline) + 1));
 	if (!line)
 	{
 		free(str);

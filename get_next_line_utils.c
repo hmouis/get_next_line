@@ -44,13 +44,18 @@ char	*ft_strcpy_nl(char *line, char *str)
 {
 	int	i;
 
-	i = 0;
 	if (!str)
 		return (NULL);
-	while (str && str[i] != '\n')
+	i = 0;
+	while (str[i] != '\0')
 	{
 		line[i] = str[i];
-		i++;
+        if (line[i] == '\n')
+        {
+            i++;
+            break;
+        }
+        i++;
 	}
 	line[i] = '\0';
 	return (line);
