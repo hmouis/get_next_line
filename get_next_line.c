@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
@@ -23,8 +22,9 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdlib.h>
 
-char	*ft_strcpy(char *str, char *after_newline)
+static char	*ft_strcpy(char *str, char *after_newline)
 {
 	int	i;
 
@@ -42,7 +42,8 @@ static char	*get_line(char *str, char *after_newline)
 {
 	char	*line;
 
-	line = malloc(sizeof(char) * (ft_strlen(str) - ft_strlen(after_newline) + 1));
+	line = malloc(sizeof(char) * (ft_strlen(str) - ft_strlen(after_newline)
+				+ 1));
 	if (!line)
 	{
 		free(str);
@@ -52,36 +53,55 @@ static char	*get_line(char *str, char *after_newline)
 	return (line);
 }
 
-char	*fill_str(char *str, int fd)
+static char	*fill_str(char *str, int fd)
 {
 	ssize_t	count;
-	char		*buf;
+	char	*buf;
 
 	buf = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (!buf)
 		return (free(str), NULL);
-    buf[0] = '\0';
+	buf[0] = '\0';
 	while (!ft_strchr(buf, '\n'))
 	{
 		count = read(fd, buf, BUFFER_SIZE);
 		if (count == 0)
 			break ;
 		if (count < 0)
-        {
-            free(str);
-            str = NULL;
-            break;
-        }
+		{
+			free(str);
+			str = NULL;
+			break ;
+		}
 		buf[count] = '\0';
 		str = ft_strjoin(str, buf);
 		if (!str)
-        {
-            free(buf);
-			return (NULL);
-        }
+			return (free(buf), NULL);
 	}
-	free(buf);
-	return (str);
+	return (free(buf), str);
+}
+
+static char	*check_after_nl(char **str)
+{
+	char	*line;
+
+	if (str)
+	{
+		line = malloc(sizeof(char) * (ft_strlen(*str) + 1));
+		if (!line)
+		{
+			free(*str);
+			*str = NULL;
+			return (NULL);
+		}
+		line = ft_strcpy(line, *str);
+		free(*str);
+		*str = NULL;
+		return (line);
+	}
+	free(*str);
+	str = NULL;
+	return (NULL);
 }
 
 char	*get_next_line(int fd)
@@ -96,28 +116,16 @@ char	*get_next_line(int fd)
 	if (!str)
 		return (NULL);
 	after_newline = ft_strchr(str, '\n');
-    if(!after_newline)
-    {
-        if(str)
-        {
-            line = malloc(sizeof(char) * (ft_strlen(str) + 1));
-			if (!line)
-				return (free(str), str = NULL);
-            line = ft_strcpy(line, str);
-            free(str);
-            return (str = NULL, line);
-        }
-        free(str);
-        return (str = NULL);
-    }
+	if (!after_newline)
+		return (check_after_nl(&str));
 	line = get_line(str, after_newline);
 	if (!line)
 		return (str = NULL);
 	str = ft_strcpy(str, after_newline);
-    if (str && str[0] == '\0')
-    {
-        free(str);
-        str = NULL;
-    }
+	if (str && str[0] == '\0')
+	{
+		free(str);
+		str = NULL;
+	}
 	return (line);
 }
