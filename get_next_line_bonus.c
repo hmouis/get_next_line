@@ -46,7 +46,7 @@ static char	*fill_str(char *str, int fd)
 	ssize_t	count;
 	char	*buf;
 
-	buf = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	buf = malloc(sizeof(char) * ((size_t)BUFFER_SIZE + 1));
 	if (!buf)
 		return (free(str), NULL);
 	buf[0] = '\0';
